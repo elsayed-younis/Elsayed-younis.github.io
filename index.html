@@ -4,213 +4,293 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elsayed Younis | Spatial Data Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-dark: #0d1117;
-            --bg-card: #161b22;
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
-            --accent: #58a6ff;
-            --border: #30363d;
+            --primary: #00f0ff;
+            --secondary: #7000ff;
+            --bg: #050b14;
+            --glass-bg: rgba(16, 25, 43, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
         
-        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; }
+        /* Interactive Pipeline Canvas Background */
+        #network-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; opacity: 0.6; }
+
+        /* Glowing Orbs for Glassmorphism Background */
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate ease-in-out; }
+        .orb-1 { top: -10%; left: -10%; width: 400px; height: 400px; background: rgba(0, 240, 255, 0.15); }
+        .orb-2 { bottom: -10%; right: -10%; width: 500px; height: 500px; background: rgba(112, 0, 255, 0.15); }
+
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(30px, 50px); } }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero { min-height: 80vh; display: flex; align-items: center; padding-top: 50px; }
+        .hero-content { max-width: 800px; }
+        .hero-badge { display: inline-block; padding: 6px 12px; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; font-weight: 600; letter-spacing: 1px;}
+        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(to right, #fff, var(--text-muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero h2 { font-size: 1.5rem; color: var(--primary); font-weight: 400; margin-bottom: 20px; }
+        .hero p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; }
+
+        /* Buttons */
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn { padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; }
+        .btn-glow { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+        .btn-glow:hover { box-shadow: 0 0 25px rgba(112, 0, 255, 0.6); transform: translateY(-2px); }
+        .btn-glass { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        .btn-glass:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); transform: translateY(-2px); }
+
+        /* Sections */
+        .section { padding: 80px 0; }
+        .section-title { font-size: 2rem; margin-bottom: 40px; display: inline-block; position: relative; color: #fff; }
+        .section-title::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 40px; height: 3px; background: var(--primary); border-radius: 2px; }
+
+        /* Projects Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .card { padding: 25px; transition: transform 0.3s, border-color 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column;}
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card-img { width: 100%; height: 200px; border-radius: 8px; object-fit: cover; margin-bottom: 20px; border: 1px solid var(--glass-border); }
+        .card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
         
-        header { padding: 40px 0; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
-        
-        .hero-section { display: flex; flex-direction: column; gap: 20px; }
-        .hero-section h1 { font-size: 2.5rem; color: #fff; }
-        .hero-section h2 { font-size: 1.5rem; color: var(--accent); font-weight: 400; }
-        .hero-section p { font-size: 1.1rem; color: var(--text-muted); max-width: 800px; }
-        
-        .btn-group { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .btn { padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
-        .btn-primary { background-color: #238636; color: #fff; border: 1px solid rgba(240,246,252,0.1); }
-        .btn-primary:hover { background-color: #2ea043; }
-        .btn-secondary { background-color: var(--bg-card); color: var(--accent); border: 1px solid var(--border); }
-        .btn-secondary:hover { border-color: var(--accent); }
-        
-        .section-title { font-size: 1.8rem; color: #fff; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
-        .section-title i { color: var(--accent); }
-        
-        /* Grid Layouts */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-        
-        /* Cards */
-        .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 25px; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card h3 { color: #fff; margin-bottom: 10px; font-size: 1.2rem; }
-        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; }
-        
-        /* Tech Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-        .tag { background-color: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(88, 166, 255, 0.2); }
-        
-        /* Work Experience specific */
-        .exp-date { font-size: 0.85rem; color: var(--accent); margin-bottom: 5px; display: block; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .tech-tag { font-size: 0.75rem; padding: 4px 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.2); color: var(--primary); border-radius: 12px; }
+
+        .card-actions { display: flex; gap: 10px; margin-top: auto;}
         
         /* Footer */
-        footer { border-top: 1px solid var(--border); padding: 30px 0; text-align: center; margin-top: 50px; color: var(--text-muted); }
+        footer { border-top: 1px solid var(--glass-border); padding: 30px 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 50px; background: rgba(0,0,0,0.3);}
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="container hero-section">
-            <h1>Elsayed Younis</h1>
-            <h2>Spatial Data Engineer | GIS & Remote Sensing Specialist</h2>
-            <p>Bridging the gap between on-ground surveying realities and cloud-native spatial data infrastructure. Class of 2026, available for full-time roles. I specialize in building scalable data pipelines, spatial databases, and automated workflows using modern data stacks.</p>
-            
-            <div class="btn-group">
-                <a href="https://github.com/elsayed-younis" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub Profile</a>
-                <a href="Elsayed G Younis.pdf" download class="btn btn-primary"><i class="fas fa-file-download"></i> Download CV</a>
-                <a href="mailto:elsayedyounis6@gmail.com" class="btn btn-secondary"><i class="fas fa-envelope"></i> Email Me</a>
-                <a href="tel:+201092489531" class="btn btn-secondary"><i class="fas fa-phone"></i> +20 109 248 9531</a>
-            </div>
-        </div>
-    </header>
+    <canvas id="network-canvas"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <main class="container">
-        
-        <!-- Technical Skills -->
-        <h2 class="section-title"><i class="fas fa-terminal"></i> Technical Ecosystem</h2>
-        <div class="grid-2">
-            <div class="card">
-                <h3>Data Engineering & Infrastructure</h3>
-                <div class="tags">
-                    <span class="tag">PostgreSQL/PostGIS</span>
-                    <span class="tag">Snowflake</span>
-                    <span class="tag">dbt Cloud</span>
-                    <span class="tag">Docker</span>
-                    <span class="tag">Ubuntu (WSL)</span>
-                    <span class="tag">VS Code</span>
-                    <span class="tag">Python</span>
-                    <span class="tag">SQL</span>
-                </div>
-                <p>Building automated ETL pipelines, managing spatial databases, and utilizing containerized environments for seamless development and deployment.</p>
-            </div>
-            <div class="card">
-                <h3>Geospatial & Field Surveying</h3>
-                <div class="tags">
-                    <span class="tag">ArcGIS Pro</span>
-                    <span class="tag">QGIS</span>
-                    <span class="tag">ERDAS IMAGINE</span>
-                    <span class="tag">OSMnx</span>
-                    <span class="tag">Total Station</span>
-                    <span class="tag">AutoCAD / Civil 3D</span>
-                    <span class="tag">Remote Sensing</span>
-                </div>
-                <p>From extracting and correcting raw field data using Total Stations to advanced spatial analysis and satellite imagery classification.</p>
-            </div>
-        </div>
-
-        <!-- Featured Projects -->
-        <h2 class="section-title"><i class="fas fa-code-branch"></i> Featured Projects</h2>
-        <div class="grid-2">
-            
-            <!-- Georisk DEPI -->
-            <div class="card">
-                <h3>Georisk-nl Pipeline (DEPI Capstone)</h3>
-                <p>End-to-End geospatial data engineering pipeline. Designed scalable architectures integrating Snowflake and dbt to process and transform spatial data efficiently.</p>
-                <div class="tags">
-                    <span class="tag">Snowflake</span>
-                    <span class="tag">dbt</span>
-                    <span class="tag">Data Pipelines</span>
-                </div>
-                <a href="https://github.com/elsayed-younis" target="_blank" class="btn btn-secondary" style="font-size: 0.9rem; padding: 6px 12px;">View Repository</a>
-            </div>
-
-            <!-- Randstad Analytics -->
-            <div class="card">
-                <h3>Randstad Urban Spatial Analytics</h3>
-                <p>Cloud-native geospatial pipeline linking building density and road networks. Successfully engineered direct data integration between Snowflake data warehouse and dbt Cloud.</p>
-                <div class="tags">
-                    <span class="tag">Snowflake</span>
-                    <span class="tag">dbt Cloud</span>
-                    <span class="tag">HTML Dashboard</span>
-                </div>
-                <a href="https://elsayed-younis.github.io/randstad-urban-spatial-analytics/dashboard/" target="_blank" class="btn btn-primary" style="font-size: 0.9rem; padding: 6px 12px;">Live Dashboard</a>
-            </div>
-
-            <!-- Solar Munchen -->
-            <div class="card">
-                <h3>Munich Solar Observatory</h3>
-                <p>PV Potential analysis for Munich using Python. Extracted live city infrastructure data via OSMnx API, processed with GeoPandas to evaluate roof-by-roof solar energy capacity.</p>
-                <div class="tags">
-                    <span class="tag">Python</span>
-                    <span class="tag">OSMnx API</span>
-                    <span class="tag">GeoPandas</span>
-                </div>
-                <a href="https://github.com/elsayed-younis/solar-munchen-observatory" target="_blank" class="btn btn-secondary" style="font-size: 0.9rem; padding: 6px 12px;">View Code</a>
-            </div>
-
-            <!-- Suez Canal -->
-            <div class="card">
-                <h3>Suez Canal Hydrological Modeling</h3>
-                <p>Graduation project focusing on terrain analysis, flood hazard zoning, and Digital Elevation Models (DEM) utilizing advanced GIS surface analysis techniques.</p>
-                <div class="tags">
-                    <span class="tag">WhiteboxTools</span>
-                    <span class="tag">Google Earth Engine</span>
-                    <span class="tag">Surface Analysis</span>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">AVAILABLE FOR FULL-TIME</div>
+                <h1>Elsayed Younis</h1>
+                <h2>Spatial Data Engineer & GIS Specialist</h2>
+                <p>Bridging the gap between on-ground field surveying and cloud-native spatial data pipelines. Class of 2026. Specialized in Modern Data Stacks, Automated ETL, and Advanced Remote Sensing Analytics.</p>
+                <div class="btn-group">
+                    <a href="#projects" class="btn btn-glow"><i class="fas fa-layer-group"></i> View Live Dashboards</a>
+                    <a href="ELSAYED YOUNIS.pdf" download class="btn btn-glass"><i class="fas fa-download"></i> Download CV</a>
+                    <a href="https://github.com/elsayed-younis" target="_blank" class="btn btn-glass"><i class="fab fa-github"></i> GitHub</a>
                 </div>
             </div>
+        </section>
 
-            <!-- Lake Nasser -->
-            <div class="card">
-                <h3>Lake Nasser 10-Year Monitoring</h3>
-                <p>Spatiotemporal shoreline and water volume change study using multi-temporal Landsat-8/9 imagery. Automated NDWI extraction for a decade of remote sensing data.</p>
-                <div class="tags">
-                    <span class="tag">Remote Sensing</span>
-                    <span class="tag">ERDAS Imagine</span>
-                    <span class="tag">Landsat</span>
+        <!-- Live Pipelines & Dashboards -->
+        <section id="projects" class="section">
+            <h2 class="section-title">Cloud & Live Spatial Pipelines</h2>
+            <div class="grid">
+                <!-- Randstad Dashboard -->
+                <div class="glass-panel card">
+                    <!-- Placeholder color for thumbnail, replace src with actual image if needed -->
+                    <div class="card-img" style="background: linear-gradient(45deg, #1a202c, #2d3748); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;"><i class="fas fa-chart-network"></i></div>
+                    <h3>Randstad Urban Spatial Analytics</h3>
+                    <p>Cloud-native pipeline integrating building density and road networks. Direct Snowflake to dbt Cloud transformation.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Snowflake</span>
+                        <span class="tech-tag">dbt Cloud</span>
+                        <span class="tech-tag">Pipelines</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://elsayed-younis.github.io/randstad-urban-spatial-analytics/dashboard/" target="_blank" class="btn btn-glow" style="padding: 8px 16px; font-size: 0.9rem; width: 100%; justify-content: center;"><i class="fas fa-external-link-alt"></i> Open Live Dashboard</a>
+                    </div>
+                </div>
+
+                <!-- Solar Munchen -->
+                <div class="glass-panel card">
+                    <div class="card-img" style="background: linear-gradient(45deg, #1a202c, #2b6cb0); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;"><i class="fas fa-solar-panel"></i></div>
+                    <h3>Munich Solar Observatory</h3>
+                    <p>PV Potential analysis. Extracted city infrastructure via OSMnx API, processed with Python & GeoPandas to evaluate roof solar capacity.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">OSMnx API</span>
+                        <span class="tech-tag">GeoPandas</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://elsayed-younis.github.io/solar-munchen-observatory/" target="_blank" class="btn btn-glow" style="padding: 8px 16px; font-size: 0.9rem; width: 100%; justify-content: center;"><i class="fas fa-external-link-alt"></i> Open Live Project</a>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Foundational GIS -->
-            <div class="card">
-                <h3>Applied GIS & Digitization Projects</h3>
-                <p>Foundational spatial projects including the Lake Mariout Urban Sprawl analysis (First Place Award) and comprehensive Compound Digitization in Riyadh.</p>
-                <div class="tags">
-                    <span class="tag">ArcGIS</span>
-                    <span class="tag">Digitization</span>
-                    <span class="tag">Urban Planning</span>
+        <!-- Advanced GIS & Remote Sensing -->
+        <section class="section">
+            <h2 class="section-title">Advanced GIS & Remote Sensing</h2>
+            <div class="grid">
+                <!-- Suez Canal DEM -->
+                <div class="glass-panel card">
+                    <img src="استخدام_الأرض.jpg" alt="Suez Canal DEM Analysis" class="card-img">
+                    <h3>Suez Canal Hydrological & Surface Modeling</h3>
+                    <p>Advanced DEM terrain analysis, slope, and aspect processing for hazard zoning. Executed using sophisticated GIS surface analysis workflows.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Surface Analysis</span>
+                        <span class="tech-tag">DEM</span>
+                        <span class="tech-tag">Spatial Modeling</span>
+                    </div>
+                </div>
+
+                <!-- Lake Mariout Video/Project -->
+                <div class="glass-panel card">
+                    <video class="card-img" autoplay loop muted playsinline>
+                        <source src="بحيرة_مريوط.mp4" type="video/mp4">
+                    </video>
+                    <h3>Lake Mariout Urban Sprawl (2015-2025)</h3>
+                    <p>10-year spatiotemporal monitoring of land reclamation and urban sprawl impacts on Lake Mariout using Landsat/Sentinel imagery and ERDAS.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">ERDAS Imagine</span>
+                        <span class="tech-tag">Remote Sensing</span>
+                        <span class="tech-tag">Time-Series</span>
+                    </div>
+                </div>
+
+                <!-- Al-Yamamah Digitization -->
+                <div class="glass-panel card">
+                    <img src="رقمنة_الكومباوند.jpg" alt="Compound Digitization" class="card-img">
+                    <h3>Al-Yamamah Resort Digitization</h3>
+                    <p>High-precision urban digitization and spatial structuring. Converted raw plans into clean, topological GIS databases for facility management.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Digitization</span>
+                        <span class="tech-tag">ArcGIS</span>
+                        <span class="tech-tag">Topology</span>
+                    </div>
+                </div>
+                
+                <!-- Alsharqia LandUse -->
+                <div class="glass-panel card">
+                    <img src="تحليلات_السطح.jpg" alt="Alsharqia Land Use" class="card-img">
+                    <h3>Alsharqia Land Use Classification</h3>
+                    <p>Satellite image classification mapping agricultural, desert, and built-up areas for urban planning and resource allocation.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Image Classification</span>
+                        <span class="tech-tag">Land Use</span>
+                    </div>
                 </div>
             </div>
+        </section>
 
-        </div>
-
-        <!-- Professional Experience -->
-        <h2 class="section-title"><i class="fas fa-briefcase"></i> Field & Professional Experience</h2>
-        <div class="grid-2">
-            <div class="card">
-                <span class="exp-date">May 2024 - Dec 2024</span>
-                <h3>Surveying & Construction Technician</h3>
-                <p style="color: #fff; font-weight: 600; margin-bottom: 5px;">Concord Engineering & Contracting (New Alamein)</p>
-                <p>Bridged the gap between physical sites and digital spatial data. Executed high-precision surveying using Total Station and Leveling for infrastructure projects. Validated spatial layouts and resolved on-site coordinate discrepancies using AutoCAD and Civil 3D.</p>
+        <!-- Tech Ecosystem -->
+        <section class="section">
+            <h2 class="section-title">Technical Ecosystem</h2>
+            <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="glass-panel card" style="height: auto;">
+                    <h3><i class="fas fa-server" style="color: var(--primary); margin-right: 10px;"></i> Data Engineering & Cloud</h3>
+                    <div class="tech-stack" style="margin-top: 15px;">
+                        <span class="tech-tag" style="font-size: 0.9rem;">PostgreSQL / PostGIS</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">Snowflake</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">dbt</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">Docker</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">Ubuntu (WSL)</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">Python / PySpark</span>
+                    </div>
+                </div>
+                <div class="glass-panel card" style="height: auto;">
+                    <h3><i class="fas fa-satellite" style="color: var(--secondary); margin-right: 10px;"></i> Field GIS & Surveying</h3>
+                    <div class="tech-stack" style="margin-top: 15px;">
+                        <span class="tech-tag" style="font-size: 0.9rem;">ArcGIS Pro / QGIS</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">ERDAS IMAGINE</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">Total Station / Leveling</span>
+                        <span class="tech-tag" style="font-size: 0.9rem;">AutoCAD / Civil 3D</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="card">
-                <span class="exp-date">Mar 2022 - Nov 2023</span>
-                <h3>Surveying Specialist</h3>
-                <p style="color: #fff; font-weight: 600; margin-bottom: 5px;">El-Saeedy Contracting Office (Menoufia)</p>
-                <p>Led end-to-end field-to-office topographic surveys for road paving projects. Responsible for extracting field points and generating precise elevation profiles and CAD deliverables from raw physical data.</p>
-            </div>
-        </div>
+        </section>
 
-    </main>
+    </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Elsayed Younis. Built for the Modern Data Ecosystem.</p>
+            <p>&copy; 2026 Elsayed Younis. elsayedyounis6@gmail.com | +20 109 248 9531</p>
         </div>
     </footer>
 
+    <!-- Interactive Pipeline Nodes Animation Script -->
+    <script>
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let nodes = [];
+
+        function init() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            nodes = [];
+            for (let i = 0; i < 60; i++) {
+                nodes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 1,
+                    vy: (Math.random() - 0.5) * 1,
+                    radius: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < nodes.length; i++) {
+                let node = nodes[i];
+                node.x += node.vx;
+                node.y += node.vy;
+
+                if (node.x < 0 || node.x > width) node.vx *= -1;
+                if (node.y < 0 || node.y > height) node.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
+                ctx.fill();
+
+                for (let j = i + 1; j < nodes.length; j++) {
+                    let node2 = nodes[j];
+                    let dx = node.x - node2.x;
+                    let dy = node.y - node2.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(node.x, node.y);
+                        ctx.lineTo(node2.x, node2.y);
+                        ctx.strokeStyle = `rgba(0, 240, 255, ${1 - dist / 150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+    </script>
 </body>
 </html>
